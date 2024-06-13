@@ -1,111 +1,129 @@
-<head>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      background-color: #000; /* Black background */
-      color: #fff; /* White text color */
-    }
-    #globeViz {
-      display: none; /* Initially hide the globe */
-      width: 100vw;
-      height: 100vh;
-    }
-    #heading {
-      margin-bottom: 20px;
-      font-size: 64px; /* Significantly increased font size for heading */
-      text-align: center;
-      color: #fff; /* White text color */
-      padding: 0 20px; /* Add padding for better readability on mobile */
-    }
-    #showGlobeButton {
-      padding: 30px 60px; /* Significantly increased padding for button */
-      font-size: 36px; /* Significantly increased font size for button */
-      background-color: #333; /* Darker button background */
-      color: #fff; /* White text color */
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition:
-        background-color 0.3s,
-        transform 0.3s;
-    }
-    #showGlobeButton:hover {
-      background-color: #555; /* Slightly lighter button background on hover */
-    }
-    #showGlobeButton:active {
-      transform: scale(0.98);
-    }
-    #loadingScreen {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 20px;
-      font-size: 36px; /* Increased font size for loading screen */
-    }
-  </style>
+<!doctype html>
+<html lang="en">
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Roboto", sans-serif;
+        font-weight: bold;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #000;
+        color: #fff;
+      }
 
-  <script src="//unpkg.com/globe.gl"></script>
-  <!--  <script src="../../dist/globe.gl.js"></script>-->
-</head>
+      #globeViz {
+        display: none;
+        width: 100vw;
+        height: 100vh;
+      }
 
-<body>
-  <div id="heading">Finding the Next Base</div>
-  <button id="showGlobeButton">Go</button>
-  <div id="loadingScreen">Loading...</div>
-  <div id="globeViz"></div>
+      #heading {
+        margin-bottom: 20px;
+        font-size: 64px;
+        text-align: center;
+        color: #fff;
+        padding: 0 20px;
+      }
 
-  <script>
-    document.getElementById("showGlobeButton").addEventListener("click", () => {
-      document.getElementById("heading").style.display = "none";
-      document.getElementById("showGlobeButton").style.display = "none";
-      document.getElementById("loadingScreen").style.display = "flex";
+      #showGlobeButton {
+        width: 50vw; /* Button fills half the screen width */
+        height: 50vh; /* Button fills half the screen height */
+        font-size: 36px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 16px; /* Increased border-radius for better appearance */
+        cursor: pointer;
+        transition:
+          background-color 0.3s,
+          transform 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-      fetch(
-        "https://raw.githubusercontent.com/vasturiano/globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson",
-      )
-        .then((res) => res.json())
-        .then((countries) => {
-          const world = Globe()
-            .globeImageUrl("//unpkg.com/three-globe/example/img/earth-dark.jpg")
-            .hexPolygonsData(countries.features)
-            .hexPolygonResolution(3)
-            .hexPolygonMargin(0.3)
-            .hexPolygonUseDots(true)
-            .hexPolygonColor(
-              () =>
-                `#${Math.round(Math.random() * Math.pow(2, 24))
-                  .toString(16)
-                  .padStart(6, "0")}`,
-            )
-            .hexPolygonLabel(
-              ({ properties: d }) => `
+      #showGlobeButton:hover {
+        background-color: #555;
+      }
+
+      #showGlobeButton:active {
+        transform: scale(0.98);
+      }
+
+      #loadingScreen {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        font-size: 36px;
+      }
+    </style>
+
+    <script src="//unpkg.com/globe.gl"></script>
+  </head>
+
+  <body>
+    <div id="heading">Find Next Base</div>
+    <button id="showGlobeButton">Go</button>
+    <div id="loadingScreen">Loading...</div>
+    <div id="globeViz"></div>
+
+    <script>
+      document
+        .getElementById("showGlobeButton")
+        .addEventListener("click", () => {
+          document.getElementById("heading").style.display = "none";
+          document.getElementById("showGlobeButton").style.display = "none";
+          document.getElementById("loadingScreen").style.display = "flex";
+
+          fetch(
+            "https://raw.githubusercontent.com/vasturiano/globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson",
+          )
+            .then((res) => res.json())
+            .then((countries) => {
+              const world = Globe()
+                .globeImageUrl(
+                  "//unpkg.com/three-globe/example/img/earth-dark.jpg",
+                )
+                .hexPolygonsData(countries.features)
+                .hexPolygonResolution(3)
+                .hexPolygonMargin(0.3)
+                .hexPolygonUseDots(true)
+                .hexPolygonColor(
+                  () =>
+                    `#${Math.round(Math.random() * Math.pow(2, 24))
+                      .toString(16)
+                      .padStart(6, "0")}`,
+                )
+                .hexPolygonLabel(
+                  ({ properties: d }) => `
               <b>${d.ADMIN} (${d.ISO_A2})</b> <br />
               Population: <i>${d.POP_EST}</i>
             `,
-            )(document.getElementById("globeViz"));
+                )(document.getElementById("globeViz"));
 
-          // Hide loading screen and show globe
-          document.getElementById("loadingScreen").style.display = "none";
-          document.getElementById("globeViz").style.display = "block";
+              document.getElementById("loadingScreen").style.display = "none";
+              document.getElementById("globeViz").style.display = "block";
 
-          // Zoom into Pune, Maharashtra, India
-          const puneCoords = { lat: 18.5204, lng: 73.8567, altitude: 0.1 };
-          world.pointOfView(puneCoords, 6000); // Zoom over 6 seconds
+              const puneCoords = { lat: 18.5204, lng: 73.8567, altitude: 0.1 };
+              world.pointOfView(puneCoords, 6000);
 
-          // Redirect after the zoom animation
-          setTimeout(() => {
-            window.location.href =
-              "https://www.airbnb.co.in/experiences/448459?location=Pune%2C%20Maharashtra%2C%20India&currentTab=experience_tab&federatedSearchId=e139f346-936f-437f-90cf-0959f82b24ae&searchId=4ebe9c68-0431-4521-8af9-b7f4c4fcd95a&sectionId=b611325c-13d7-4bed-b70a-8565be03206f";
-          }, 6500); // Redirect after 6.5 seconds to allow the zoom animation to complete
+              setTimeout(() => {
+                window.location.href =
+                  "https://www.airbnb.co.in/experiences/448459?location=Pune%2C%20Maharashtra%2C%20India&currentTab=experience_tab&federatedSearchId=e139f346-936f-437f-90cf-0959f82b24ae&searchId=4ebe9c68-0431-4521-8af9-b7f4c4fcd95a&sectionId=b611325c-13d7-4bed-b70a-8565be03206f";
+              }, 6500);
+            });
         });
-    });
-  </script>
-</body>
+    </script>
+  </body>
+</html>
