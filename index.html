@@ -34,13 +34,13 @@
       }
 
       #showGlobeButton {
-        width: 50vw; /* Button fills half the screen width */
-        height: 50vh; /* Button fills half the screen height */
+        width: 50vw;
+        height: 50vh;
         font-size: 36px;
         background-color: #333;
         color: #fff;
         border: none;
-        border-radius: 16px; /* Increased border-radius for better appearance */
+        border-radius: 16px;
         cursor: pointer;
         transition:
           background-color 0.3s,
@@ -67,6 +67,28 @@
         padding: 20px;
         font-size: 36px;
       }
+
+      #footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        padding: 10px;
+        background-color: #000;
+        color: #fff;
+      }
+
+      #companyDetails {
+        position: fixed;
+        bottom: 50px;
+        width: 100%;
+        text-align: center;
+        font-size: 14px;
+        padding: 10px;
+        background-color: #000;
+        color: #fff;
+      }
     </style>
 
     <script src="//unpkg.com/globe.gl"></script>
@@ -77,6 +99,15 @@
     <button id="showGlobeButton">Go</button>
     <div id="loadingScreen">Loading...</div>
     <div id="globeViz"></div>
+
+    <div id="footer">
+      2024 Visa Rsvp, Inc. | Privacy | Terms |
+      <a
+        href="mailto:rocket@visa.rsvp"
+        style="color: #fff; text-decoration: none"
+        >Company details</a
+      >
+    </div>
 
     <script>
       document
