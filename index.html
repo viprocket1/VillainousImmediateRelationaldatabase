@@ -15,8 +15,22 @@
         align-items: center;
         justify-content: center;
         height: 100vh;
-        background-color: #000;
+        background: linear-gradient(-45deg, #000, #433, #595, #977);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
         color: #fff;
+      }
+
+      @keyframes gradientBG {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
       }
 
       #globeViz {
